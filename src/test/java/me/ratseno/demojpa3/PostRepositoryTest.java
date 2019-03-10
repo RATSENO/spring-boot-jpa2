@@ -1,5 +1,7 @@
 package me.ratseno.demojpa3;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,12 @@ public class PostRepositoryTest {
 	public void crud() {
 		Post post = new Post();
 		post.setTitle("hibernate");
+
+		assertThat(postRepository.contains(post)).isFalse();
+
 		postRepository.save(post);
 
-		postRepository.findMyPost();
+		assertThat(postRepository.contains(post)).isTrue();
 
 		postRepository.delete(post);
 		postRepository.flush();
