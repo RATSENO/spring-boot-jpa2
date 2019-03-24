@@ -9,8 +9,10 @@ import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 @Entity
-public class Post {
+public class Post extends AbstractAggregateRoot<Post>{
 
 	@Id
 	@GeneratedValue
@@ -54,5 +56,10 @@ public class Post {
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public Post publish() {
+		this.registerEvent(new PostPublishedEvent(this));
+		return this;
 	}
 }
